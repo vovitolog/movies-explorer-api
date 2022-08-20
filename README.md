@@ -1,1 +1,5 @@
-# movies-explorer-api
+# API для Дипломного проекта.
+
+## Работа с приложением
+`npm run start` — запуск сервера
+`npm run dev` — запуск сервера с hot-reload
