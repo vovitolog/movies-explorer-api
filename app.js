@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = require('./routes');
+const rateLimiter = require('./middlewares/rate-limiter');
 
 const { PORT = 3000 } = process.env;
 
@@ -11,6 +12,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/moviesdb', {
 });
 
 app.use(router);
+
+app.use(rateLimiter);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
