@@ -5,6 +5,7 @@ const ForbiddenError = require('../errors/forbidden-error');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
+    .orFail(new NotFoundError('Фильмы не найдены'))
     .then((movies) => res.send(movies))
     .catch(next);
 };
