@@ -1,11 +1,9 @@
 const router = require('express').Router();
-const auth = require('../middlewares/auth');
+const { createUser, login } = require('../controllers/users');
 const NotFoundError = require('../errors/not-found-error');
 
-router.use(require('./auth'));
-router.use(auth, require('./users'));
-router.use(auth, require('./movies'));
-
+router.post('/signin', login);
+router.post('/signup', createUser);
 router.use(('*', () => {
   throw new NotFoundError('Страница не найдена');
 }));
