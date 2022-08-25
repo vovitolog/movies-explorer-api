@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const { errors } = require('celebrate');
+const error = require('./middlewares/error');
 const cors = require('./middlewares/cors-protection');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const rateLimiter = require('./middlewares/rate-limiter');
@@ -24,6 +26,8 @@ app.use(rateLimiter);
 app.use(cors);
 app.use(requestLogger);
 app.use(errorLogger);
+app.use(errors());
+app.use(error);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
