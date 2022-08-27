@@ -17,6 +17,21 @@ const getMovies = (req, res, next) => {
     .catch(next);
 };
 
+const deleteMovie = (req, res, next) => {
+  const { _id } = req.params;
+  Movie.findById(_id)
+    .orFail(() => new NotFoundError(movieNotFoundMsg))
+    .then((movie) => {
+      if (movie.owner.toString() !== req.user._id.toString()) {
+        return next(new ForbiddenError(deleteMovieForbiddenMsg));
+      }
+      return movie
+        .remove()
+        .then(() => res.send({ message: deleteMovieSuccessfulMsg }));
+    })
+    .catch(next);
+};
+
 const addMovie = (req, res, next) => {
   const {
     country,
@@ -56,20 +71,6 @@ const addMovie = (req, res, next) => {
         next(err);
       }
     });
-};
-
-const deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.id)
-    .orFail(() => new NotFoundError(movieNotFoundMsg))
-    .then((movie) => {
-      if (movie.owner.toString() !== req.user._id.toString()) {
-        return next(new ForbiddenError(deleteMovieForbiddenMsg));
-      }
-      return movie
-        .remove()
-        .then(() => res.send({ message: deleteMovieSuccessfulMsg }));
-    })
-    .catch(next);
 };
 
 module.exports = {
