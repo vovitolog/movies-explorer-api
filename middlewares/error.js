@@ -1,9 +1,11 @@
+const { serverErrorMsg } = require('../utils/constants');
+
 module.exports = (err, req, res, next) => {
   if (err.statusCode === 500) {
     res
       .status(500)
       .send({
-        message: `На сервере произошла ошибка ${err.name}: ${err.message}`,
+        message: `${serverErrorMsg} ${err.name}: ${err.message}`,
       });
     return;
   }

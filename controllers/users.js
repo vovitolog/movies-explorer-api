@@ -5,12 +5,17 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/not-found-error');
 const ConflictError = require('../errors/conflict-error');
+const {
+  userNotFoundMsg,
+  badRequestMsg,
+  userExistsMsg,
+} = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(new NotFoundError('Пользователь не найден'))
+    .orFail(new NotFoundError(userNotFoundMsg))
     .then((user) => res.send(user))
     .catch(next);
 };
@@ -23,11 +28,11 @@ const updateCurrentUser = (req, res, next) => {
     { name, email },
     { new: true, runValidators: true },
   )
-    .orFail(new NotFoundError('Пользователь не найден'))
+    .orFail(new NotFoundError(userNotFoundMsg))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Введены некорректные данные'));
+        next(new BadRequestError(badRequestMsg));
       } else {
         next(err);
       }
@@ -59,9 +64,9 @@ const createUser = (req, res, next) => {
     });
   }).catch((err) => {
     if (err.name === 'ValidationError') {
-      next(new BadRequestError('Введены некорректные данные'));
+      next(new BadRequestError(badRequestMsg));
     } else if (err.code === 11000) {
-      next(new ConflictError('Пользователь с таким e-mail уже существует'));
+      next(new ConflictError(userExistsMsg));
     } else {
       next(err);
     }
