@@ -1,10 +1,11 @@
 const { celebrate, Joi } = require('celebrate');
 const { isURL } = require('validator');
 const BadRequestError = require('../errors/bad-request-error');
+const { wrongUrlMsg } = require('../utils/constants');
 
 const urlValidator = (url) => {
   if (!isURL(url, { require_protocol: true })) {
-    throw new BadRequestError('Введите корректный URL');
+    throw new BadRequestError(wrongUrlMsg);
   }
   return url;
 };
@@ -26,7 +27,7 @@ const addMovieValidation = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom(urlValidator),
-    trailer: Joi.string().required().custom(urlValidator),
+    trailerLink: Joi.string().required().custom(urlValidator),
     thumbnail: Joi.string().required().custom(urlValidator),
     nameRU: Joi.string().required(),
     nameEN: Joi.required(),

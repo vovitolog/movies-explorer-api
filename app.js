@@ -7,7 +7,7 @@ const error = require('./middlewares/error');
 const cors = require('./middlewares/cors-protection');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const rateLimiter = require('./middlewares/rate-limiter');
-const router = require('./routes');
+const router = require('./routes/index');
 
 const { PORT = 3000 } = process.env;
 

@@ -2,10 +2,17 @@ const Movie = require('../models/movie');
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/not-found-error');
 const ForbiddenError = require('../errors/forbidden-error');
+const {
+  moviesNotFoundMsg,
+  badRequestMsg,
+  movieNotFoundMsg,
+  deleteMovieSuccessfulMsg,
+  deleteMovieForbiddenMsg,
+} = require('../utils/constants');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
-    .orFail(new NotFoundError('Фильмы не найдены'))
+    .orFail(new NotFoundError(moviesNotFoundMsg))
     .then((movies) => res.send(movies))
     .catch(next);
 };
@@ -18,7 +25,7 @@ const addMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -32,7 +39,7 @@ const addMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -40,13 +47,11 @@ const addMovie = (req, res, next) => {
     owner,
   })
     .then((movie) => {
-      res.status(201).send(movie);
+      res.send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(
-          new BadRequestError('Введены некорректные данные при создании фильма'),
-        );
+        next(new BadRequestError(badRequestMsg));
       } else {
         next(err);
       }
@@ -55,13 +60,14 @@ const addMovie = (req, res, next) => {
 
 const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.id)
-    .orFail(() => new NotFoundError('Фильм не найден'))
+    .orFail(() => new NotFoundError(movieNotFoundMsg))
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id.toString()) {
-        return next(new ForbiddenError('Нет прав для удаления фильма'));
+        return next(new ForbiddenError(deleteMovieForbiddenMsg));
       }
-      return movie.remove()
-        .then(() => res.send({ message: 'Карточка удалена' }));
+      return movie
+        .remove()
+        .then(() => res.send({ message: deleteMovieSuccessfulMsg }));
     })
     .catch(next);
 };
