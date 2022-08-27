@@ -3,6 +3,7 @@ const badRequestMsg = 'Введены некорректные данные';
 const userExistsMsg = 'Данный емейл уже зарегистрирован';
 const wrongUrlMsg = 'Введите корректный URL';
 const wrongEmailMsg = 'Неправильный формат почты';
+const wrongAuthDataMsg = 'Неправильные почта или пароль';
 const authErrorMsg = 'Необходима авторизация';
 const serverErrorMsg = 'На сервере произошла ошибка';
 const moviesNotFoundMsg = 'Фильмы не найдены';
@@ -17,6 +18,7 @@ module.exports = {
   wrongEmailMsg,
   wrongUrlMsg,
   authErrorMsg,
+  wrongAuthDataMsg,
   serverErrorMsg,
   moviesNotFoundMsg,
   movieNotFoundMsg,
