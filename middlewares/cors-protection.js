@@ -3,8 +3,8 @@ const allowedDomains = [
   'https://api.movies.vovitolog.nomoredomains.sbs',
   'http://movies.vovitolog.nomoredomains.sbs',
   'http://api.movies.vovitolog.nomoredomains.sbs',
-  'http://localhost:3000',
-  'https://localhost:3000',
+  'http://localhost:3001',
+  'https://localhost:3001',
 ];
 
 // eslint-disable-next-line consistent-return
