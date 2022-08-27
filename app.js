@@ -11,8 +11,6 @@ const rateLimiter = require('./middlewares/rate-limiter');
 const router = require('./routes/index');
 const { DATABASE, PORT } = require('./utils/config');
 
-// const { PORT = 3000 } = process.env;
-
 const app = express();
 
 app.use(helmet());
