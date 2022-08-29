@@ -20,11 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(DATABASE, {
   useNewUrlParser: true,
 });
-
-app.use(router);
-app.use(rateLimiter);
-app.use(cors);
 app.use(requestLogger);
+app.use(rateLimiter);
+app.use(router);
+app.use(cors);
 app.use(errorLogger);
 app.use(errors());
 app.use(error);

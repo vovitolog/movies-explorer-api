@@ -27,6 +27,13 @@ const updateCurrentUser = (req, res, next) => {
     { new: true, runValidators: true },
   )
     .orFail(new NotFoundError(userNotFoundMsg))
+    .catch((err) => {
+      if (err.code === 11000) {
+        throw new ConflictError(userExistsMsg);
+      } else {
+        next(err);
+      }
+    })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
