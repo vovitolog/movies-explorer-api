@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const error = require('./middlewares/error');
-const cors = require('./middlewares/cors-protection');
+/* const cors = require('./middlewares/cors-protection'); */
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const rateLimiter = require('./middlewares/rate-limiter');
 const router = require('./routes/index');
@@ -23,7 +23,7 @@ mongoose.connect(DATABASE, {
 app.use(requestLogger);
 app.use(rateLimiter);
 app.use(router);
-app.use(cors);
+/* app.use(cors); */
 app.use(errorLogger);
 app.use(errors());
 app.use(error);
